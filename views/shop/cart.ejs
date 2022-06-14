@@ -1,0 +1,52 @@
+<%- include('../includes/head.ejs') %>
+  <link rel="stylesheet" href="/css/product.css">
+  </head>
+
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+
+      <main>
+        <% if (prods.length> 0) { %>
+          <div class="grid">
+            <% for (let product of prods) { %>
+              <article class="card product-item">
+                <header class="card__header">
+                  <h1 class="product__title">
+                    <%= product.title %>
+                  </h1>
+                </header>
+                <div class="card__image">
+                  <img src="<%= product.imageUrl %>" alt="A Book">
+                </div>
+                <div class="card__content">
+                  <h2 class="product__price">
+                    Price: <%= product.price %>
+                  </h2>
+                  <h2 class="product__price">
+                    Quantity: <%= product.cartItem.quantity %>
+                  </h2>
+                  <p class="product__description">
+                    Description: <%= product.description %>
+                  </p>
+                </div>
+                <div class="card__actions">
+                  <a href="/products/<%= product.id %>" class="btn">Details</a>
+                  <form action="/cart-delete-item" method="POST">
+                    <input type="hidden" name="productId" id="productId" value="<%= product.id %>">
+                    <button class="btn">Delete</button>
+                  </form>
+
+                  <!-- <%- include('../includes/add-to-cart', {product: product}) %> -->
+                </div>
+              </article>
+              <% } %>
+          </div>
+          <hr>
+          <form action="/create-order" method="POST">
+            <button type="submit" class="btn">Order Now!!</button>
+          </form>
+          <% } else { %>
+            <h1>No Products in Cart!</h1>
+            <% } %>
+      </main>
+      <%- include('../includes/end.ejs') %>
